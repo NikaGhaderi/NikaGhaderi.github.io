@@ -53,6 +53,7 @@ const researchItems = [
     org: "Dr. Rohban’s AI & Robotics Lab | Sharif University of Technology",
     date: 'January – March 2025',
     current: false,
+    link: { label: 'Read the survey (PDF)', url: '/Nika_Ghaderi_Online_Learning_Survey.pdf' },
     points: [
       'Wrote a technical survey of online learning methods (SGD variants, multi-armed bandits, online k-means, online meta-learning), with applications to precision agriculture and computer vision.'
     ]
@@ -245,6 +246,16 @@ function Timeline({ items, delay = 0 }) {
               <p className="mt-1 text-sm italic text-gray-500">{item.subtitle}</p>
             )}
             <p className="mb-2 mt-1 text-sm text-gray-500">{item.date}</p>
+            {item.link && (
+              <a
+                href={item.link.url}
+                target="_blank"
+                rel="noreferrer"
+                className="mb-2 inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-green-700 hover:underline transition-colors duration-200"
+              >
+                <ExternalIcon className="h-3.5 w-3.5" /> {item.link.label}
+              </a>
+            )}
             <ul className="list-disc pl-5 space-y-2 text-gray-700 marker:text-green-700">
               {item.points.map((p) => (
                 <li key={p}>{p}</li>
