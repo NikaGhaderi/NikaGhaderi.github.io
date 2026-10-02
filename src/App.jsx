@@ -480,14 +480,14 @@ export default function App() {
       </nav>
 
       {/* Main Content Window with Transition */}
-      <main className="max-w-5xl mx-auto px-6 py-6 md:py-8">
+      <main className="max-w-5xl mx-auto px-6 py-5 md:py-6">
         <div key={displayTab} className={`transition-opacity duration-200 ease-out ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
 
           {/* HOME SECTION */}
           {displayTab === 'home' && (
-            <div className="flex flex-col md:flex-row items-start justify-between gap-12">
+            <div className="flex flex-col md:flex-row items-start justify-between gap-8 lg:gap-12">
 
-              <div className="max-w-2xl space-y-6 w-full md:w-[calc(50%-1.5rem)]">
+              <div className="flex-1 min-w-0 max-w-2xl space-y-4 w-full">
                 <h1 className="reveal text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
                   Hi, I'm <span className="text-green-700">Nika</span>.
                 </h1>
@@ -515,7 +515,7 @@ export default function App() {
                   </a>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="reveal border-l-4 border-green-500 pl-4 transition-colors duration-300 hover:border-green-600" style={{ animationDelay: '200ms' }}>
                     <p className="text-sm text-gray-500 uppercase tracking-wider font-semibold">Education</p>
                     <p className="font-medium text-gray-900">B.Sc. Computer Engineering</p>
@@ -538,7 +538,7 @@ export default function App() {
               </div>
 
               {/* Profile Animation */}
-              <div className="reveal-fade relative w-full md:w-[min(400px,calc((100vh-200px)*0.75))] aspect-[3/4]" style={{ animationDelay: '200ms' }}>
+              <div className="reveal-fade relative w-full md:flex-shrink-0 md:w-[min(380px,calc((100vh-150px)*0.75))] aspect-[3/4]" style={{ animationDelay: '200ms' }}>
                 <div className="absolute inset-0 rounded-xl bg-white overflow-hidden">
                   <iframe
                     src="/profile.html"
@@ -674,9 +674,11 @@ export default function App() {
         </div>
       </main>
 
-      <footer className="max-w-5xl mx-auto px-6 py-8 text-xs text-gray-400">
-        © {new Date().getFullYear()} Nika Ghaderi
-      </footer>
+      {displayTab !== 'home' && (
+        <footer className="max-w-5xl mx-auto px-6 py-8 text-xs text-gray-400">
+          © {new Date().getFullYear()} Nika Ghaderi
+        </footer>
+      )}
     </div>
   );
 }
