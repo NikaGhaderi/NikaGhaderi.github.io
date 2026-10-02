@@ -499,7 +499,7 @@ export default function App() {
                 </p>
 
                 <p className="reveal text-sm text-gray-500 leading-relaxed" style={{ animationDelay: '120ms' }}>
-                  Away from the terminal, literature brings the soul into my life. I'm passionate about philosophical literature and classic must-reads, from French and Russian novels to the Latin American literature I'm exploring. I'm always open to a good book recommendation :)
+                  Away from the terminal, I read a lot, mostly philosophical literature and the classics: French and Russian novels (Camus and Dostoevsky are favorites) and, lately, Latin American writers. I'm always open to a good book recommendation :)
                 </p>
 
                 {/* Contact Links */}
