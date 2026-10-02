@@ -164,10 +164,11 @@ const projects = [
 ];
 
 const skills = [
-  { label: 'Languages', items: ['C', 'C++17', 'CUDA', 'Python', 'SQL (PostgreSQL)', 'Java'] },
-  { label: 'Systems & Tools', items: ['Linux (namespaces, cgroups v2)', 'Git', 'CMake/CTest', 'Nsight Compute', 'cuda-gdb', 'cuRAND', 'Kafka (librdkafka)', 'Apache Spark (Spark SQL)', 'LaTeX'] },
+  { label: 'Languages', items: ['C', 'C++17', 'CUDA', 'Python', 'SQL (PostgreSQL)', 'Java (JavaFX)'] },
+  { label: 'Systems & Tools', items: ['Linux (namespaces, cgroups v2)', 'Git', 'CMake/CTest', 'Nsight Compute', 'cuda-gdb', 'cuRAND', 'Kafka (librdkafka)', 'RabbitMQ', 'Apache Spark (Spark SQL)', 'CI/CD', 'LaTeX'] },
   { label: 'ML & Data', items: ['PyTorch', 'PyTorch Lightning', 'DGL', 'scikit-learn', 'Optuna', 'pandas/NumPy'] },
-  { label: 'Hardware & Low-Level', items: ['Verilog', 'Quartus', 'MIPS and x86 (8086) assembly', 'Ghidra'] }
+  { label: 'Hardware & Low-Level', items: ['Verilog', 'Quartus', 'MIPS and x86 (8086) assembly', 'Ghidra'] },
+  { label: 'Web & Backend', items: ['React', 'JavaScript', 'HTML/CSS', 'Tailwind CSS', 'Django', 'WebSockets', 'Microservices'] }
 ];
 
 const honors = [
