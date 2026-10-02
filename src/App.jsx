@@ -41,49 +41,51 @@ const researchItems = [
     title: 'Undergraduate Researcher (B.Sc. Thesis)',
     org: 'DAISY Lab | Sharif University of Technology',
     subtitle: 'Learning Query Cost Models that Extrapolate Across Data Scale · Supervisor: Dr. Maryam Ramezani',
-    date: 'March 2026 - Present',
+    date: 'March 2026 – Present',
     current: true,
     points: [
-      'Extending a graph-transformer query-cost model to predict Spark SQL latency and I/O from compile-time query plans, with operator weights conditioned on each operator’s type and its parent’s type.',
-      'Developing scale-free plan features and a power-law readout with a learned growth exponent to predict costs at 100× the training data size without retraining.',
-      'Built a two-server pipeline collecting isolated Spark execution traces on TPC-H at multiple scale factors; preliminary results cut I/O error ~57% and extrapolation error ~4× in a 10× scale-up pilot.'
+      'Predicting the latency and I/O of Spark SQL queries from their compile-time query plans, to support cost-based optimization and resource planning.',
+      'Designing graph-transformer models over query-plan graphs; in a 10× scale-up pilot on real Spark traces, the models achieved ~37% lower latency error than the best template-level analytic cost model.'
     ]
   },
   {
-    title: 'C/C++ Software Engineer (Full-time)',
+    title: 'AI Research Assistant (Online Learning Project)',
+    org: "Dr. Rohban’s AI & Robotics Lab | Sharif University of Technology",
+    date: 'January – March 2025',
+    current: false,
+    points: [
+      'Wrote a technical survey of online learning methods (SGD variants, multi-armed bandits, online k-means, online meta-learning), with applications to precision agriculture and computer vision.'
+    ]
+  }
+];
+
+const engineeringItems = [
+  {
+    title: 'C/C++ Software Engineer',
     org: 'Sharif HPC Center | Sharif University of Technology',
-    subtitle: 'Real-time deep packet inspection and call-detail-record correlation for high-throughput VoIP networks',
-    date: 'February 2026 - Present',
+    subtitle: 'GPU-accelerated packet processing for real-time analysis of high-throughput VoIP traffic',
+    date: 'February 2026 – Present',
     current: true,
     points: [
-      'Designed a GPU-accelerated multi-pattern matching engine in CUDA for VoIP signaling detection (SIP/RTP), reaching 100 Gbps end-to-end vs. a 10-20 Gbps 8-thread CPU baseline.',
-      'Replaced a lock-based allocator with a lock-free, sequence-number-based ring buffer, eliminating hot-path contention under burst traffic.',
-      'Built a lock-free multi-threaded producer-consumer pipeline in C++17 (atomic CAS object pool, MPMC queue) for CDR correlation with zero per-message heap allocation.'
+      'Designed a CUDA multi-pattern matching engine for SIP/RTP traffic detection, replacing a production Intel Hyperscan CPU implementation: 100 Gbps end-to-end vs. 10–20 Gbps on an 8-thread CPU baseline.',
+      'Built lock-free data paths for line-rate ingestion: a ring buffer supporting out-of-order packet placement under burst traffic, and a multi-threaded C++17 pipeline for call-detail-record correlation (zero per-message heap allocation, Kafka integration, deterministic replay).',
+      'Developed a heuristic protocol-layer scan for tunneled traffic, reducing the false-positive rate from ~25% to zero on observed traces.'
     ]
   },
   {
     title: 'Software Engineering Intern (OpenAirInterface 5G)',
     org: 'EURECOM | Sophia Antipolis, France',
-    link: { label: 'OpenAirInterface 5G project', url: 'https://gitlab.eurecom.fr/oai/openairinterface5g' },
-    date: 'July - September 2025',
+    date: 'July – September 2025',
     current: false,
     points: [
-      'Spearheaded GPU acceleration for 5G NR channel simulations, offloading multipath convolution and noise generation to CUDA pipelines - over 400× speedup vs. a single-threaded scalar C baseline.',
-      'Optimized kernels via tiled convolution with shared memory and cuRAND-based parallel noise generation; profiled three CUDA memory models (Explicit Copy, Unified, ATS) to select the optimal one per use case.',
+      'Accelerated 5G NR channel simulations on the GPU, offloading multipath convolution and noise generation to CUDA: over 400× speedup vs. a single-threaded scalar C baseline.',
+      'Optimized kernels (shared-memory tiling, cuRAND); benchmarked three CUDA memory models: unified memory trailed, while explicit copy and ATS each led in different configurations.',
       'Built a CI-integrated CTest benchmark suite for numerical correctness and regression testing.'
-    ]
-  },
-  {
-    title: 'AI Research Assistant (Online Learning Project)',
-    org: "Dr. Rohban's AI & Robotics Lab | Sharif University of Technology",
-    date: 'January - March 2024',
-    current: false,
-    points: [
-      'Researched online learning methods for adaptive AI systems in dynamic environments under the supervision of Dr. Sajad Sabzi, developing and evaluating real-time learning algorithms.'
     ]
   }
 ];
 
+// Course name and number of semesters as a TA (Fa23 – Fa26)
 const taCourses = [
   { name: 'Linear Algebra', count: 6 },
   { name: 'Artificial Intelligence', count: 3 },
@@ -98,23 +100,25 @@ const taCourses = [
   { name: 'Fundamentals of Programming in C', count: 1 }
 ];
 
+const taOfferings = taCourses.reduce((sum, c) => sum + c.count, 0);
+
 const trainings = [
   {
-    title: 'Artificial Intelligence and Digital Technologies',
-    org: 'SPbPU - St. Petersburg Polytechnic University, Russia',
+    title: 'Winter University in Engineering Science',
+    org: 'SPbPU (Peter the Great St. Petersburg Polytechnic University), Russia',
     date: '2025',
-    desc: 'Fully funded; selected to represent Sharif University of Technology under a bilateral inter-university agreement. Completed the “Innovator” track at the Winter University of Engineering Sciences.'
+    desc: '“Innovator” track; completed program modules in Artificial Intelligence and Digital Technologies. Fully funded; selected to represent Sharif University of Technology under a bilateral inter-university agreement.'
   },
   {
     title: 'Neural Networks and Deep Learning',
-    org: 'Coursera (DeepLearning.AI) - Credential',
+    org: 'Coursera (DeepLearning.AI) – Credential',
     link: 'https://coursera.org/share/4f51e07732beffbe8636d3dcb8ddda90',
     date: '2025',
     desc: null
   },
   {
     title: 'Front-End Training Course',
-    org: 'Quera College - Perfect Score',
+    org: 'Quera College – Perfect Score',
     date: '2023',
     desc: null
   }
@@ -122,50 +126,64 @@ const trainings = [
 
 const projects = [
   {
+    title: 'Unsupervised Anomaly Detection on MVTec AD',
+    year: '2026',
+    desc: 'Course project (2 members). Implemented PaDiM and STFPM in PyTorch for defect detection and localization, trained only on defect-free images; PaDiM reached 0.93 macro image AUROC across 15 categories.',
+    repo: 'https://github.com/NikaGhaderi/Unsupervised-Anomaly-Detection-MVTec',
+    video: null
+  },
+  {
     title: 'Linux Container Runtime',
     year: '2025',
-    desc: 'Built a lightweight, daemonless container runtime from scratch in C: chroot filesystem isolation, PID and mount namespaces, CPU and memory limits via cgroups v2, and a custom CLI with an automated setup script.',
-    repo: 'https://github.com/NikaGhaderi/Container-Runtime-System.git',
-    demo: null
+    desc: 'Built a lightweight, daemonless container runtime from scratch in C: filesystem isolation via chroot, process and mount isolation via Linux namespaces (PID, mount), CPU and memory limits enforced with cgroups v2, and a custom CLI with an automated setup script.',
+    repo: 'https://github.com/NikaGhaderi/Container-Runtime-System',
+    video: null
   },
   {
-    title: '64B/66B to 8B/10B Encoding Converter',
+    title: '64B/66B to 8B/10B Encoding Converter with Error Correction',
     year: '2025',
-    desc: 'Built a real-time Arduino-based converter with Hamming-code error detection and correction, plus simulated fault injection for resilience testing.',
+    desc: 'Team project (3 members). Built a real-time Arduino-based converter from 64B/66B to 8B/10B encoding, with Hamming-code error detection/correction and simulated fault injection for resilience testing.',
     repo: 'https://github.com/Sharif-University-ICD/Project8-64B-66B-to-8B-10B-Encoding-Converter',
-    demo: 'https://aparat.com/v/xkaw65c'
+    video: { id: '_R66I7SySxg', note: 'Persian narration, English subtitles', captions: true }
   },
   {
-    title: 'Game Development Project',
+    title: 'Strategy Game (Stronghold Crusader–inspired)',
     year: '2023',
-    desc: 'Designed a strategy game inspired by Stronghold Crusader using Java.',
-    repo: 'https://github.com/advanced-programming-sut-2023/project-group-58.git',
-    demo: 'https://www.aparat.com/v/QSPgj'
+    desc: 'Team project (3 members) in Java/JavaFX with an MVC architecture. Implemented A* pathfinding for units, a tile-based map with building, resource, and trade systems, JSON persistence and JUnit tests.',
+    repo: 'https://github.com/advanced-programming-sut-2023/project-group-58',
+    video: { id: '9Eo-i1BA07w' }
   },
   {
-    title: 'File Editing Tool',
+    title: 'Vim-Inspired Text Editor',
     year: '2022',
-    desc: 'Developed a Vim-inspired text editor in C for an “Introduction to Programming” course.',
-    repo: 'https://github.com/FundamentalOfProgramming-SUT-2022/project-DivalDotNet.git',
-    demo: null
+    desc: 'Implemented a command-line text editor in C with insert/cut/copy/paste, find and replace, grep, undo, auto-indent, file comparison (diff), directory tree view, and piping of command output between commands.',
+    repo: 'https://github.com/FundamentalOfProgramming-SUT-2022/project-DivalDotNet',
+    video: null
   }
+];
+
+const skills = [
+  { label: 'Languages', items: ['C', 'C++17', 'CUDA', 'Python', 'SQL (PostgreSQL)', 'Java'] },
+  { label: 'Systems & Tools', items: ['Linux (namespaces, cgroups v2)', 'Git', 'CMake/CTest', 'Nsight Compute', 'cuda-gdb', 'cuRAND', 'Kafka (librdkafka)', 'Apache Spark (Spark SQL)', 'LaTeX'] },
+  { label: 'ML & Data', items: ['PyTorch', 'PyTorch Lightning', 'DGL', 'scikit-learn', 'Optuna', 'pandas/NumPy'] },
+  { label: 'Hardware & Low-Level', items: ['Verilog', 'Quartus', 'MIPS and x86 (8086) assembly', 'Ghidra'] }
 ];
 
 const honors = [
   {
     title: 'Iranian Nationwide University Entrance Exam (Concours)',
     date: '2022',
-    desc: 'Ranked 23rd of 52,009 (Region 2) in Mathematics; placed in the top 0.05% nationally among 145,657 candidates.'
+    desc: 'Ranked 78th of 145,747 candidates nationally (top 0.06%) and 23rd of 52,009 in Region 2, Mathematics track.'
   },
   {
     title: 'Tehran Math House Competition',
     date: '2020',
-    desc: 'Awarded a gold medal in the 11th-grade national mathematics competition.'
+    desc: 'Awarded a gold medal in the 11th-grade competition.'
   },
   {
     title: 'Cayley Contest',
     date: '2020',
-    desc: 'Placed among Iran’s top 5, organized by CEMC, University of Waterloo, Canada.'
+    desc: 'Placed among Iran’s top 5 in the contest organized by CEMC, University of Waterloo, Canada.'
   },
   {
     title: 'Top Scholar Plaque',
@@ -174,11 +192,152 @@ const honors = [
   }
 ];
 
+const tabFromHash = () => {
+  const id = window.location.hash.replace('#', '');
+  return navItems.some((item) => item.id === id) ? id : 'home';
+};
+
+const SectionHeading = ({ children, delay }) => (
+  <h2
+    className="reveal text-3xl font-bold text-gray-900 border-b-2 border-green-100 inline-block pb-2"
+    style={delay ? { animationDelay: delay } : undefined}
+  >
+    {children}
+  </h2>
+);
+
+// Timeline with a dot that glides to the hovered item
+function Timeline({ items, delay = 0 }) {
+  const [dotTop, setDotTop] = useState(20);
+  const firstItem = useRef(null);
+
+  useEffect(() => {
+    if (firstItem.current) setDotTop(firstItem.current.offsetTop + 20);
+  }, []);
+
+  return (
+    <div className="reveal relative pl-6" style={{ animationDelay: `${delay}ms` }}>
+      {/* Single timeline line */}
+      <div className="absolute left-[5px] top-2 bottom-2 w-0.5 rounded-full bg-gradient-to-b from-green-500 via-green-300 to-green-100" />
+      {/* Gliding dot */}
+      <div
+        className="absolute left-0 z-10 h-3 w-3 rounded-full bg-green-600 ring-4 ring-green-100 shadow-md"
+        style={{ top: dotTop, transition: 'top 0.55s cubic-bezier(0.22, 1, 0.36, 1)' }}
+      />
+
+      <div className="space-y-2">
+        {items.map((item, i) => (
+          <div
+            key={item.title}
+            ref={i === 0 ? firstItem : undefined}
+            onMouseEnter={(e) => setDotTop(e.currentTarget.offsetTop + 20)}
+            className="reveal rounded-xl px-4 py-3 transition-all duration-300 hover:bg-green-50/15 hover:shadow-sm"
+            style={{ animationDelay: `${delay + 60 + i * 90}ms` }}
+          >
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <h3 className="text-xl font-semibold text-gray-900">{item.title}</h3>
+              {item.current && (
+                <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-white">Current</span>
+              )}
+            </div>
+            <p className="mt-1 font-medium text-green-700">{item.org}</p>
+            {item.subtitle && (
+              <p className="mt-1 text-sm italic text-gray-500">{item.subtitle}</p>
+            )}
+            <p className="mb-2 mt-1 text-sm text-gray-500">{item.date}</p>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700 marker:text-green-700">
+              {item.points.map((p) => (
+                <li key={p}>{p}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const SocialLinks = () => (
+  <>
+    <a
+      href="https://www.linkedin.com/in/nika-ghaderi"
+      target="_blank"
+      rel="noreferrer"
+      aria-label="LinkedIn"
+      className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-green-600 transition-colors duration-200"
+    >
+      <LinkedInIcon className="h-[18px] w-[18px]" />
+    </a>
+    <a
+      href="https://github.com/NikaGhaderi"
+      target="_blank"
+      rel="noreferrer"
+      aria-label="GitHub"
+      className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-green-600 transition-colors duration-200"
+    >
+      <GitHubIcon className="h-[18px] w-[18px]" />
+    </a>
+  </>
+);
+
+const linkClass = 'inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-green-700 hover:underline transition-colors duration-200';
+
+// Project card; a demo video opens inside the card (loaded only on click)
+function ProjectCard({ project: p, delay }) {
+  const [showVideo, setShowVideo] = useState(false);
+  const captions = p.video?.captions ? '&cc_load_policy=1&cc_lang_pref=en' : '';
+
+  return (
+    <div className={`reveal ${showVideo ? 'md:col-span-2' : ''}`} style={{ animationDelay: `${delay}ms` }}>
+      <div className="h-full flex flex-col bg-white p-6 rounded-xl border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-lg hover:shadow-green-900/5 hover:border-green-200">
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="text-lg font-bold text-gray-900">{p.title}</h3>
+          <span className="mt-1 text-xs font-semibold text-white bg-green-50 rounded-full px-2.5 py-0.5">{p.year}</span>
+        </div>
+        <p className="mt-3 text-sm leading-relaxed text-gray-600">{p.desc}</p>
+
+        {showVideo && p.video && (
+          <div className="mt-4 aspect-video w-full max-w-3xl overflow-hidden rounded-lg bg-gray-100">
+            <iframe
+              className="h-full w-full"
+              src={`https://www.youtube-nocookie.com/embed/${p.video.id}?autoplay=1&rel=0${captions}`}
+              title={`${p.title} – demo video`}
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+              allowFullScreen
+            ></iframe>
+          </div>
+        )}
+
+        {(p.repo || p.video) && (
+          <div className="mt-auto pt-4 flex flex-wrap items-center gap-x-5 gap-y-1">
+            {p.repo && (
+              <a href={p.repo} target="_blank" rel="noreferrer" className={linkClass}>
+                <GitHubIcon className="h-4 w-4" /> Code
+              </a>
+            )}
+            {p.video && (
+              <button type="button" onClick={() => setShowVideo(!showVideo)} aria-expanded={showVideo} className={linkClass}>
+                <PlayIcon className="h-4 w-4" /> {showVideo ? 'Hide demo' : 'Watch demo'}
+              </button>
+            )}
+            {p.video && (
+              <a href={`https://youtu.be/${p.video.id}`} target="_blank" rel="noreferrer" className={linkClass}>
+                <ExternalIcon className="h-3.5 w-3.5" /> YouTube
+              </a>
+            )}
+            {p.video?.note && <span className="w-full text-xs text-gray-400">{p.video.note}</span>}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
 
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState(tabFromHash);
 
-  const [displayTab, setDisplayTab] = useState('home');
+  const [displayTab, setDisplayTab] = useState(tabFromHash);
 
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -187,8 +346,7 @@ export default function App() {
   // Handles the smooth fade transition between tabs
   const switchTimer = useRef(null);
 
-  const switchTab = (id) => {
-    if (id === activeTab) return;
+  const showTab = (id) => {
     setActiveTab(id);
     setIsTransitioning(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -199,36 +357,34 @@ export default function App() {
     }, 180);
   };
 
-  useEffect(() => () => clearTimeout(switchTimer.current), []);
-
-  // Timeline dot position (glides to the hovered item)
-  const [dotTop, setDotTop] = useState(20);
-  const itemRefs = useRef([]);
-  const sectionMounted = useRef(false);
+  // Keep the tab in the URL (#experience, #projects) so it can be linked and the back button works
+  const switchTab = (id) => {
+    if (id === activeTab) return;
+    window.history.pushState(null, '', id === 'home' ? window.location.pathname : `#${id}`);
+    showTab(id);
+  };
 
   useEffect(() => {
-    if (displayTab !== 'experience') sectionMounted.current = false;
-  }, [displayTab]);
-
-  const setItemRef = (i, el) => {
-    itemRefs.current[i] = el;
-    if (i === 0 && el && !sectionMounted.current) {
-      sectionMounted.current = true;
-      setDotTop(el.offsetTop + 20);
-    }
-  };
-
-  const moveDot = (el) => {
-    if (el) setDotTop(el.offsetTop + 20);
-  };
+    const onPop = () => showTab(tabFromHash());
+    window.addEventListener('popstate', onPop);
+    return () => {
+      window.removeEventListener('popstate', onPop);
+      clearTimeout(switchTimer.current);
+    };
+  }, []);
 
   return (
-    <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-green-100">
+    <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-green-100 selection:text-white">
 
       {/* Top Navigation Bar */}
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-green-50 shadow-sm">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span className="font-semibold text-xl tracking-tight text-green-800">Nika Ghaderi</span>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+          <button
+            onClick={() => switchTab('home')}
+            className="font-semibold text-lg sm:text-xl tracking-tight text-green-800 whitespace-nowrap"
+          >
+            Nika Ghaderi
+          </button>
 
           <div className="flex items-center space-x-2 sm:space-x-4">
             <div className="hidden md:flex space-x-2">
@@ -236,6 +392,7 @@ export default function App() {
                 <button
                   key={item.id}
                   onClick={() => switchTab(item.id)}
+                  aria-current={activeTab === item.id ? 'page' : undefined}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                     activeTab === item.id
                       ? 'bg-green-600 text-white'
@@ -249,34 +406,18 @@ export default function App() {
 
             {/* Social Links */}
             <div className="hidden sm:flex items-center space-x-1">
-              <a
-                href="https://linkedin.com/in/nika-ghaderi"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn"
-                className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-green-600 transition-colors duration-200"
-              >
-                <LinkedInIcon className="h-[18px] w-[18px]" />
-              </a>
-              <a
-                href="https://github.com/NikaGhaderi"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="GitHub"
-                className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-green-600 transition-colors duration-200"
-              >
-                <GitHubIcon className="h-[18px] w-[18px]" />
-              </a>
+              <SocialLinks />
             </div>
 
             {/* Download CV Button */}
             <a
               href="/Nika_Ghaderi_CV.pdf"
-              download="Nika_Ghaderi_Academic_CV.pdf"
-              className="group inline-flex items-center gap-2 px-4 py-2 border-2 border-green-600 text-green-700 rounded-md text-sm font-semibold hover:bg-green-600 hover:text-white hover:shadow-md hover:shadow-green-600/20 transition-all duration-200"
+              download="Nika_Ghaderi_CV.pdf"
+              className="group inline-flex items-center gap-2 px-3 sm:px-4 py-2 border-2 border-green-600 text-green-700 rounded-md text-sm font-semibold whitespace-nowrap hover:bg-green-600 hover:text-white hover:shadow-md hover:shadow-green-600/20 transition-all duration-200"
             >
-              Download CV
-              <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <span className="sm:hidden">CV</span>
+              <span className="hidden sm:inline">Download CV</span>
+              <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7-7-7M12 3v18" />
               </svg>
             </a>
@@ -289,11 +430,11 @@ export default function App() {
               className="md:hidden p-2 -mr-2 rounded-md text-gray-500 hover:bg-gray-50 transition-colors duration-200"
             >
               {menuOpen ? (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               ) : (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               )}
@@ -309,6 +450,7 @@ export default function App() {
                 <button
                   key={item.id}
                   onClick={() => { setMenuOpen(false); switchTab(item.id); }}
+                  aria-current={activeTab === item.id ? 'page' : undefined}
                   className={`block w-full text-left px-4 py-2.5 rounded-md text-sm font-medium transition-colors duration-200 ${
                     activeTab === item.id
                       ? 'bg-green-600 text-white'
@@ -320,24 +462,7 @@ export default function App() {
               ))}
             </div>
             <div className="flex items-center gap-1 pt-3 mt-3 border-t border-gray-100">
-              <a
-                href="https://linkedin.com/in/nika-ghaderi"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn"
-                className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-green-600 transition-colors duration-200"
-              >
-                <LinkedInIcon className="h-[18px] w-[18px]" />
-              </a>
-              <a
-                href="https://github.com/NikaGhaderi"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="GitHub"
-                className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-green-600 transition-colors duration-200"
-              >
-                <GitHubIcon className="h-[18px] w-[18px]" />
-              </a>
+              <SocialLinks />
             </div>
           </div>
         )}
@@ -357,8 +482,9 @@ export default function App() {
                 </h1>
 
                 <p className="reveal text-lg text-gray-600 leading-relaxed" style={{ animationDelay: '90ms' }}>
-                  I am a Computer Engineering B.Sc. student at Sharif University of Technology with a focus on Systems, HPC, and AI.
-                  Currently, I am an Undergraduate Researcher at the DAISY Lab, working on learning query cost models that extrapolate across massive data scales.
+                  I am a Computer Engineering B.Sc. student at Sharif University of Technology with a focus on systems, HPC, and AI.
+                  I am an undergraduate researcher at the DAISY Lab, working on learning query cost models that extrapolate across data scale,
+                  and a C/C++ software engineer at the Sharif HPC Center, building GPU-accelerated packet processing.
                 </p>
 
                 <p className="reveal text-sm text-gray-500 leading-relaxed" style={{ animationDelay: '120ms' }}>
@@ -366,15 +492,13 @@ export default function App() {
                 </p>
 
                 {/* Contact Links */}
-                <div className="reveal flex flex-wrap items-center gap-x-4 gap-y-2 text-sm" style={{ animationDelay: '140ms' }}>
+                <div className="reveal flex flex-wrap items-center gap-x-5 gap-y-2 text-sm" style={{ animationDelay: '140ms' }}>
                   <a href="mailto:nika.ghaderi04@sharif.edu" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-green-700 transition-colors duration-200">
                     <MailIcon className="h-4 w-4" /> nika.ghaderi04@sharif.edu
                   </a>
-                  <span className="text-gray-300">·</span>
-                  <a href="https://linkedin.com/in/nika-ghaderi" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-green-700 transition-colors duration-200">
+                  <a href="https://www.linkedin.com/in/nika-ghaderi" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-green-700 transition-colors duration-200">
                     <LinkedInIcon className="h-4 w-4" /> LinkedIn
                   </a>
-                  <span className="text-gray-300">·</span>
                   <a href="https://github.com/NikaGhaderi" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-green-700 transition-colors duration-200">
                     <GitHubIcon className="h-4 w-4" /> GitHub
                   </a>
@@ -383,14 +507,16 @@ export default function App() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   <div className="reveal border-l-4 border-green-500 pl-4 transition-colors duration-300 hover:border-green-600" style={{ animationDelay: '200ms' }}>
                     <p className="text-sm text-gray-500 uppercase tracking-wider font-semibold">Education</p>
-                    <p className="font-medium text-gray-900">Sharif University of Technology <span className="text-xs text-gray-400 font-normal">· 2022 - Expected 2027</span></p>
+                    <p className="font-medium text-gray-900">B.Sc. Computer Engineering</p>
+                    <p className="text-sm text-gray-700">Sharif University of Technology</p>
+                    <p className="text-xs text-gray-400">2022 – Expected 2027</p>
                     <p className="text-sm text-green-700 font-medium">GPA: 19.30 / 20</p>
                   </div>
 
                   <div className="reveal border-l-4 border-green-200 pl-4 transition-colors duration-300 hover:border-green-300" style={{ animationDelay: '260ms' }}>
                     <p className="text-sm text-gray-500 uppercase tracking-wider font-semibold">Interests</p>
                     <p className="text-sm text-gray-700 mt-1">
-                      CUDA Acceleration • Systems Architecture • MLSys • Distributed Computing
+                      Machine Learning • ML for Systems • High-Performance Computing • GPU Computing
                     </p>
                   </div>
                 </div>
@@ -409,7 +535,7 @@ export default function App() {
                     style={{ width: '133.3333%', height: '75%', transform: 'translate(-50%, -50%) rotate(270deg)' }}
                     frameBorder="0"
                     scrolling="no"
-                    title="Profile animation"
+                    title="Portrait of Nika Ghaderi (line drawing)"
                   ></iframe>
                 </div>
               </div>
@@ -420,66 +546,21 @@ export default function App() {
           {/* EXPERIENCE SECTION */}
           {displayTab === 'experience' && (
             <div className="space-y-12">
-              <h2 className="reveal text-3xl font-bold text-gray-900 border-b-2 border-green-100 inline-block pb-2">Research &amp; Engineering</h2>
+              <SectionHeading>Research</SectionHeading>
+              <Timeline items={researchItems} delay={80} />
 
-              <div className="reveal relative pl-6" style={{ animationDelay: '80ms' }}>
-                {/* Single timeline line */}
-                <div className="absolute left-[5px] top-2 bottom-2 w-0.5 rounded-full bg-gradient-to-b from-green-500 via-green-300 to-green-100" />
-                {/* Gliding dot */}
-                <div
-                  className="absolute left-0 z-10 h-3 w-3 rounded-full bg-green-600 ring-4 ring-green-100 shadow-md"
-                  style={{ top: dotTop, transition: 'top 0.55s cubic-bezier(0.22, 1, 0.36, 1)' }}
-                />
+              <SectionHeading delay="120ms">Engineering</SectionHeading>
+              <Timeline items={engineeringItems} delay={160} />
 
-                <div className="space-y-2">
-                  {researchItems.map((item, i) => (
-                    <div
-                      key={item.title}
-                      ref={(el) => setItemRef(i, el)}
-                      onMouseEnter={(e) => moveDot(e.currentTarget)}
-                      className="reveal rounded-xl px-4 py-3 transition-all duration-300 hover:bg-green-50/15 hover:shadow-sm"
-                      style={{ animationDelay: `${140 + i * 90}ms` }}
-                    >
-                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                        <h3 className="text-xl font-semibold text-gray-900">{item.title}</h3>
-                        {item.current && (
-                          <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-white">Current</span>
-                        )}
-                      </div>
-                      <p className="mt-1 font-medium text-green-700">{item.org}</p>
-                      {item.subtitle && (
-                        <p className="mt-1 text-sm italic text-gray-500">{item.subtitle}</p>
-                      )}
-                      <p className="mb-1 mt-1 text-sm text-gray-500">{item.date}</p>
-                      {item.link && (
-                        <a
-                          href={item.link.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="mb-2 inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-green-700 hover:underline transition-colors duration-200"
-                        >
-                          <ExternalIcon className="h-3.5 w-3.5" /> {item.link.label}
-                        </a>
-                      )}
-                      <ul className="list-disc list-inside space-y-2 text-gray-700">
-                        {item.points.map((p) => (
-                          <li key={p}>{p}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <h2 className="reveal mt-8 text-3xl font-bold text-gray-900 border-b-2 border-green-100 inline-block pb-2" style={{ animationDelay: '120ms' }}>Teaching</h2>
+              <SectionHeading delay="120ms">Teaching</SectionHeading>
 
               <div className="reveal bg-green-50 rounded-xl p-6 border border-green-100 transition-all duration-300 hover:shadow-md" style={{ animationDelay: '200ms' }}>
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <h3 className="text-lg font-semibold text-white">Teaching Assistant (2023 - 2026)</h3>
-                  <p className="text-sm text-gray-300">Sharif University of Technology · 11 courses · 24 semesters</p>
+                  <h3 className="text-lg font-semibold text-white">Teaching Assistant (2023 – Present)</h3>
+                  <p className="text-sm text-gray-300">Sharif University of Technology · {taCourses.length} courses · {taOfferings} course offerings</p>
                 </div>
                 <p className="text-gray-300 mt-2 text-sm leading-relaxed">
-                  Designed and contributed to homework, quizzes, and exams for:
+                  Designed and contributed to homework, quizzes, and exams for (× = number of semesters):
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
                   {taCourses.map((c) => (
@@ -494,19 +575,19 @@ export default function App() {
                 </div>
               </div>
 
-              <h2 className="reveal mt-8 text-3xl font-bold text-gray-900 border-b-2 border-green-100 inline-block pb-2" style={{ animationDelay: '120ms' }}>Academic Service</h2>
+              <SectionHeading delay="120ms">Academic Service</SectionHeading>
 
               <div className="reveal bg-white rounded-xl p-6 border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-green-200" style={{ animationDelay: '200ms' }}>
-                <h3 className="text-lg font-semibold text-gray-900">Grader - Iranian National Olympiad in Artificial Intelligence</h3>
+                <h3 className="text-lg font-semibold text-gray-900">Grader – Iranian National Olympiad in Artificial Intelligence</h3>
                 <p className="mt-1 text-sm font-medium text-green-700">Young Scholars Club (YSC) · 2026</p>
                 <p className="mt-2 text-sm text-gray-600">
-                  Graded papers determining the national medalists in the selection for the International Olympiad in AI (IOAI).
+                  Graded exams that determined national medalists in Iran’s selection for the International Olympiad in AI (IOAI).
                 </p>
               </div>
 
-              <h2 className="reveal mt-8 text-3xl font-bold text-gray-900 border-b-2 border-green-100 inline-block pb-2" style={{ animationDelay: '120ms' }}>Training &amp; Certifications</h2>
+              <SectionHeading delay="120ms">Training &amp; Certifications</SectionHeading>
 
-              <div className="space-y-3 mt-8">
+              <div className="space-y-3">
                 {trainings.map((t, i) => (
                   <div key={t.title} className="reveal bg-white rounded-xl p-5 border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-green-200" style={{ animationDelay: `${160 + i * 90}ms` }}>
                     <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -531,40 +612,26 @@ export default function App() {
           {displayTab === 'projects' && (
             <div className="space-y-12">
               <div>
-                <h2 className="reveal text-3xl font-bold text-gray-900 border-b-2 border-green-100 inline-block pb-2">Projects</h2>
+                <SectionHeading>Projects</SectionHeading>
                 <div className="grid md:grid-cols-2 gap-6 mt-8">
                   {projects.map((p, i) => (
-                    <div key={p.title} className="reveal" style={{ animationDelay: `${100 + i * 90}ms` }}>
-                      <div className="h-full bg-white p-6 rounded-xl border border-gray-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-green-900/5 hover:border-green-200">
-                        <div className="flex flex-wrap items-baseline justify-between gap-2">
-                          <h3 className="text-lg font-bold text-gray-900">{p.title}</h3>
-                          <span className="text-xs font-semibold text-white bg-green-50 rounded-full px-2.5 py-0.5">{p.year}</span>
-                        </div>
-                        <p className="mt-3 text-sm leading-relaxed text-gray-600">{p.desc}</p>
-                        {(p.repo || p.demo) && (
-                          <div className="mt-4 flex items-center gap-5">
-                            {p.repo && (
-                              <a
-                                href={p.repo}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-green-700 hover:underline transition-colors duration-200"
-                              >
-                                <GitHubIcon className="h-4 w-4" /> Code
-                              </a>
-                            )}
-                            {p.demo && (
-                              <a
-                                href={p.demo}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-green-700 hover:underline transition-colors duration-200"
-                              >
-                                <PlayIcon className="h-4 w-4" /> Demo
-                              </a>
-                            )}
-                          </div>
-                        )}
+                    <ProjectCard key={p.title} project={p} delay={100 + i * 90} />
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <SectionHeading delay="80ms">Technical Skills</SectionHeading>
+                <div className="mt-8 space-y-4">
+                  {skills.map((group, i) => (
+                    <div key={group.label} className="reveal flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4" style={{ animationDelay: `${120 + i * 70}ms` }}>
+                      <p className="sm:w-56 flex-shrink-0 sm:whitespace-nowrap text-sm text-gray-500 uppercase tracking-wider font-semibold">{group.label}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {group.items.map((s) => (
+                          <span key={s} className="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 shadow-sm transition-colors duration-200 hover:border-green-200">
+                            {s}
+                          </span>
+                        ))}
                       </div>
                     </div>
                   ))}
@@ -572,7 +639,7 @@ export default function App() {
               </div>
 
               <div>
-                <h2 className="reveal text-3xl font-bold text-gray-900 border-b-2 border-green-100 inline-block pb-2" style={{ animationDelay: '80ms' }}>Selected Honors</h2>
+                <SectionHeading delay="80ms">Selected Honors</SectionHeading>
                 <div className="mt-8 space-y-2 rounded-xl bg-green-50 border border-green-100 p-6">
                   {honors.map((h, i) => (
                     <div key={h.title} className="reveal" style={{ animationDelay: `${160 + i * 90}ms` }}>
@@ -580,7 +647,7 @@ export default function App() {
                         <div className="mt-2 h-2 w-2 rounded-full bg-white flex-shrink-0" />
                         <div>
                           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                            <h4 className="font-semibold text-white">{h.title}</h4>
+                            <h3 className="font-semibold text-white">{h.title}</h3>
                             <span className="text-xs font-semibold text-gray-300">{h.date}</span>
                           </div>
                           <p className="mt-1 text-sm text-gray-300">{h.desc}</p>
@@ -595,6 +662,10 @@ export default function App() {
 
         </div>
       </main>
+
+      <footer className="max-w-5xl mx-auto px-6 py-8 text-xs text-gray-400">
+        © {new Date().getFullYear()} Nika Ghaderi
+      </footer>
     </div>
   );
 }

@@ -1,16 +1,20 @@
-# React + Vite
+# nikaghaderi.github.io
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal academic website of Nika Ghaderi: https://nikaghaderi.github.io
 
-Currently, two official plugins are available:
+Built with Vite, React, and Tailwind CSS. Every push to `main` is built and deployed to GitHub Pages by `.github/workflows/deploy.yml`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Local development
 
-## React Compiler
+```bash
+npm ci
+npm run dev      # dev server
+npm run build    # production build into dist/
+npm run lint
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Where things are
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/App.jsx`: all page content (research, engineering, teaching, projects, skills, honors) is in the data arrays at the top of the file.
+- `public/Nika_Ghaderi_CV.pdf`: the CV served by the "Download CV" button. Replace this file to update it.
+- `public/profile.html`: the line-drawing portrait; its animation library is served locally from `public/vendor/` (anime.js 4.5.0, MIT).
